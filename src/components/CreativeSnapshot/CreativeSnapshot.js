@@ -1,0 +1,128 @@
+import React from 'react'
+
+import ContainerNode from 'components/ContainerNode/ContainerNode'
+import ImageNode from 'components/ImageNode/ImageNode'
+import ShapeNode from 'components/ShapeNode/ShapeNode'
+import TextNode from 'components/TextNode/TextNode'
+
+// import classes from './CreativeSnapshot.scss'
+
+class CreativeSnapshot extends React.Component {
+  static propTypes = {
+    doc: React.PropTypes.object.isRequired,
+    data: React.PropTypes.array
+  }
+
+  getCanvasNode () {
+    const {canvases, nodes} = this.props.doc
+    return nodes.find((n) => (n.id === canvases[0]))
+  }
+
+  buildTree (id, nodes) {
+    const node = nodes.find((n) => n.id === id)
+    return {
+      ...node,
+      children: (node.children || []).map((c) => this.buildTree(c, nodes))
+    }
+  }
+
+  componentDidMount () {
+    const canvas = this.getCanvasNode()
+    const container = this.refs.container
+    const parent = container.parentNode.getBoundingClientRect()
+
+    // do scaling
+    const scale = parent.width / canvas.width.value
+    container.style.transformOrigin = 'top left'
+    container.style.transform = `scale(${scale})`
+  }
+
+  render () {
+    const id = this.props.doc.canvases[0]
+    const root = this.buildTree(id, this.props.doc.nodes)
+    const canvas = this.getCanvasNode()
+
+    return (
+      <div /* className={classes.creative} */
+        style={{
+          width: canvas.width.value + 'px',
+          height: canvas.height.value + 'px',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+        ref='container'
+      >
+        {
+          root.children.map(
+            (c) => (
+              <Node
+                key={c.id}
+                node={c}
+                data={this.props.data}
+              />
+            )
+          )
+        }
+      </div>
+    )
+  }
+}
+
+function Node (props) {
+  const { node } = props
+
+  const layoutCss = (prop) => prop.type === 'auto' ? 'auto' : `${prop.value}${prop.type}`
+
+  function transforms (node) {
+    const ts = []
+    if ((node.vAlign || {}).value === 'middle') {
+      ts.push('translateY(-50%)')
+    }
+    if ((node.hAlign || {}).value === 'center') {
+      ts.push('translateX(-50%)')
+    }
+    return ts.join(' ')
+  }
+
+  const style = {
+    width: layoutCss(node.width),
+    height: layoutCss(node.height),
+    top: layoutCss(node.top),
+    right: layoutCss(node.right),
+    bottom: layoutCss(node.bottom),
+    left: layoutCss(node.left),
+    transform: transforms(node),
+    opacity: node.opacity.value / 100,
+    overflow: node.mask.value ? 'hidden' : 'visible',
+    position: 'absolute'
+  }
+
+  return (
+    <div
+      /* className={classes.node} */
+      style={style}
+    >
+      <div /* className={classes.content} */
+        style={{
+          width: '100%',
+          height: '100%'
+        }}>
+        {node.type === 'image' && <ImageNode node={node} data={props.data} />}
+        {node.type === 'text' && <TextNode node={node} data={props.data} />}
+        {node.type === 'shape' && <ShapeNode node={node} />}
+        {node.type === 'container' && <ContainerNode node={node} />}
+      </div>
+      {
+        node.children.map(
+          (n) => <Node key={n.id} node={n} data={props.data} />
+        )
+      }
+    </div>
+  )
+}
+Node.propTypes = {
+  node: React.PropTypes.object.isRequired,
+  data: React.PropTypes.array
+}
+
+export default CreativeSnapshot
