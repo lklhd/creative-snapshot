@@ -20,7 +20,7 @@
     "postpublish": "npm run gh-pages && npm run gh-pages:deploy",
     "postinstall": "node lib/post_install.js"
   },
-  "main": "dist/creative-snapshot.js",
+  "main": "dist-modules",
   "dependencies": {
     "react": "^0.14.7",
     "react-dom": "^0.14.7"
