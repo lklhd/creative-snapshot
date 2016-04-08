@@ -23,8 +23,8 @@ const config = {
     demo: path.join(ROOT_PATH, 'demo'),
     tests: path.join(ROOT_PATH, 'tests')
   },
-  filename: 'boilerplate',
-  library: 'Boilerplate'
+  filename: 'creative-snapshot',
+  library: 'creative-snapshot'
 };
 const CSS_PATHS = [
   config.paths.demo,
@@ -47,6 +47,7 @@ process.env.BABEL_ENV = TARGET;
 
 const demoCommon = {
   resolve: {
+    root: config.paths.src,
     extensions: ['', '.js', '.jsx', '.css', '.png', '.jpg']
   },
   module: {
@@ -242,6 +243,9 @@ if (TARGET === 'test' || TARGET === 'test:tdd' || !TARGET) {
 
 const distCommon = {
   devtool: 'source-map',
+  resolve: {
+    root: config.paths.src
+  },
   output: {
     path: config.paths.dist,
     libraryTarget: 'umd',
