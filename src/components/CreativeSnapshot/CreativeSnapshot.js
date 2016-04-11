@@ -1,9 +1,10 @@
 import React from 'react'
+import Frame from 'react-frame-component'
 
-import ContainerNode from 'components/ContainerNode/ContainerNode'
-import ImageNode from 'components/ImageNode/ImageNode'
-import ShapeNode from 'components/ShapeNode/ShapeNode'
-import TextNode from 'components/TextNode/TextNode'
+import ContainerNode from '../ContainerNode/ContainerNode'
+import ImageNode from '../ImageNode/ImageNode'
+import ShapeNode from '../ShapeNode/ShapeNode'
+import TextNode from '../TextNode/TextNode'
 
 // import classes from './CreativeSnapshot.scss'
 
@@ -31,9 +32,10 @@ class CreativeSnapshot extends React.Component {
     const container = this.refs.container
     const parent = container.parentNode.getBoundingClientRect()
 
-    // do scaling
+    // scale the creative snapshot to fill the
+    // width of its immediate parent
     const scale = parent.width / canvas.width.value
-    container.style.transformOrigin = 'top left'
+    container.style.transformOrigin = 'left top 0px'
     container.style.transform = `scale(${scale})`
   }
 
@@ -43,27 +45,36 @@ class CreativeSnapshot extends React.Component {
     const canvas = this.getCanvasNode()
 
     return (
-      <div /* className={classes.creative} */
+      <Frame
+        height='100%'
+        seamless='seamless'
+        scrolling='no'
         style={{
-          width: canvas.width.value + 'px',
-          height: canvas.height.value + 'px',
-          position: 'relative',
-          overflow: 'hidden'
+          border: 'none'
         }}
-        ref='container'
-      >
-        {
-          root.children.map(
-            (c) => (
-              <Node
-                key={c.id}
-                node={c}
-                data={this.props.data}
-              />
+        width='100%'>
+        <div
+          style={{
+            overflow: 'hidden',
+            position: 'relative',
+            width: canvas.width.value + 'px',
+            height: canvas.height.value + 'px'
+          }}
+          ref='container'
+        >
+          {
+            root.children.map(
+              (c) => (
+                <Node
+                  key={c.id}
+                  node={c}
+                  dataSource={this.props.doc.dataSource}
+                />
+              )
             )
-          )
-        }
-      </div>
+          }
+        </div>
+      </Frame>
     )
   }
 }
