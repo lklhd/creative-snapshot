@@ -63,8 +63,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ImageNode = exports.ImageNode = __webpack_require__(3);
 	var ShapeNode = exports.ShapeNode = __webpack_require__(4);
 	var TextNode = exports.TextNode = __webpack_require__(5);
-	var CreativeSnapshot = __webpack_require__(6);
-	exports.default = CreativeSnapshot;
+	var CreativeSnapshot = exports.CreativeSnapshot = __webpack_require__(6);
 
 /***/ },
 /* 1 */
