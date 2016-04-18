@@ -2,7 +2,7 @@
   "name": "creative-snapshot",
   "description": "React Component for Likelihood Creative Snapshot",
   "author": "Aaron Dai <aaron@Likelihood.com>",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "scripts": {
     "start": "webpack-dev-server",
     "test": "karma start",
