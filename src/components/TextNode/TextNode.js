@@ -1,36 +1,90 @@
 import React from 'react'
 
-function TextNode (props) {
-  const style = {
-    fontFamily: props.node.font.value,
-    fontWeight: props.node.weight.value,
-    color: props.node.color.value,
-    fontSize: props.node.size.value
+const ESCAPE_KEY = 27;
+const ENTER_KEY = 13;
+
+class TextNode extends React.Component {
+  static propTypes = {
+    node: React.PropTypes.object.isRequired,
+    data: React.PropTypes.array,
+    setProperty: React.PropTypes.func
   }
 
-  function safeGetData (prop) {
-    const source = props.data || []
-    const datum = source[(props.node.text.rank || 1) - 1] || {}
-    return datum[prop] || ''
+  state = {
+    editText: this.textValue()
   }
 
-  function textValue () {
-    const type = props.node.text.type || 'static'
+  safeGetData (field) {
+    const {data, node} = this.props
+    const datum = data[(node.text.rank || 1) - 1] || {}
+    return datum[field] || ''
+  }
+
+  textValue () {
+    const { node } = this.props
+    const type = node.text.type || 'static'
     return type === 'static'
-      ? props.node.text.value
-      : safeGetData(props.node.text.field)
+      ? node.text.value
+      : this.safeGetData(node.text.field)
   }
 
-  return (
-    <div style={style}>
-      {textValue()}
-    </div>
-  )
-}
+  onDoubleClick (e) {
+    e.preventDefault();
+    this.refs.label.style.display = 'none';
+    this.refs.input.style.display = 'block';
+  }
 
-TextNode.propTypes = {
-  node: React.PropTypes.object.isRequired,
-  data: React.PropTypes.array
+  commit () {
+    const { node, setProperty } = this.props
+
+    this.refs.label.style.display = 'block';
+    this.refs.input.style.display = 'none';
+
+    setProperty(node.id, 'text', {value: this.refs.input.value})
+  }
+
+  handleKeyDown (e) {
+    if (e.which === ESCAPE_KEY || e.which === ENTER_KEY) {
+      this.commit();
+    }
+  }
+
+  onBlur (e) {
+    e.preventDefault();
+    this.commit();
+  }
+
+  handleChange (e) {
+    this.setState({editText: e.target.value});
+  }
+
+  render () {
+    const { node } = this.props
+    const style = {
+      fontFamily: node.font.value,
+      fontWeight: node.weight.value,
+      color: node.color.value,
+      fontSize: node.size.value
+    }
+
+    return <div style={style}>
+      <div
+        onDoubleClick={::this.onDoubleClick}
+        ref='label'>
+        {this.state.editText}
+      </div>
+      <input
+        type='text'
+        ref='input'
+        style={{
+          display: 'none'
+        }}
+        onBlur={::this.onBlur}
+        onChange={::this.handleChange}
+        onKeyDown={::this.handleKeyDown}
+        value={this.state.editText} />
+    </div>
+  }
 }
 
 module.exports = TextNode
