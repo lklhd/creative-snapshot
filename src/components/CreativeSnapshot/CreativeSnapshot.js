@@ -136,4 +136,4 @@ Node.propTypes = {
   data: React.PropTypes.array
 }
 
-export default CreativeSnapshot
+module.exports = CreativeSnapshot
