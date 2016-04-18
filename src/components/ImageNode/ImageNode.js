@@ -47,4 +47,4 @@ class ImageNode extends React.Component {
   }
 }
 
-export default ImageNode
+module.exports = ImageNode;

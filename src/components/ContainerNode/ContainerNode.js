@@ -21,4 +21,4 @@ ContainerNode.propTypes = {
   node: React.PropTypes.object.isRequired
 }
 
-export default ContainerNode
+module.exports = ContainerNode

@@ -27,4 +27,4 @@ ShapeNode.propTypes = {
   node: React.PropTypes.object.isRequired
 }
 
-export default ShapeNode
+module.exports = ShapeNode

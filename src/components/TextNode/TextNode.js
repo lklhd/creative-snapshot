@@ -33,4 +33,4 @@ TextNode.propTypes = {
   data: React.PropTypes.array
 }
 
-export default TextNode
+module.exports = TextNode
