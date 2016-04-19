@@ -289,6 +289,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      e.preventDefault();
 	      this.refs.label.style.display = 'none';
 	      this.refs.input.style.display = 'block';
+	      this.refs.input.focus();
 	    }
 	  }, {
 	    key: 'commit',
