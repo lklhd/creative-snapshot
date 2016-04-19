@@ -32,6 +32,7 @@ class TextNode extends React.Component {
     e.preventDefault();
     this.refs.label.style.display = 'none';
     this.refs.input.style.display = 'block';
+    this.refs.input.focus();
   }
 
   commit () {
