@@ -229,42 +229,143 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function TextNode(props) {
-	  var style = {
-	    fontFamily: props.node.font.value,
-	    fontWeight: props.node.weight.value,
-	    color: props.node.color.value,
-	    fontSize: props.node.size.value
-	  };
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	  function safeGetData(prop) {
-	    var source = props.data || [];
-	    var datum = source[(props.node.text.rank || 1) - 1] || {};
-	    return datum[prop] || '';
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ESCAPE_KEY = 27;
+	var ENTER_KEY = 13;
+	
+	var TextNode = function (_React$Component) {
+	  _inherits(TextNode, _React$Component);
+	
+	  function TextNode() {
+	    var _Object$getPrototypeO;
+	
+	    var _temp, _this, _ret;
+	
+	    _classCallCheck(this, TextNode);
+	
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(TextNode)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
+	      editText: _this.textValue()
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 	
-	  function textValue() {
-	    var type = props.node.text.type || 'static';
-	    return type === 'static' ? props.node.text.value : safeGetData(props.node.text.field);
-	  }
+	  _createClass(TextNode, [{
+	    key: 'safeGetData',
+	    value: function safeGetData(field) {
+	      var _props = this.props;
+	      var data = _props.data;
+	      var node = _props.node;
 	
-	  return _react2.default.createElement(
-	    'div',
-	    { style: style },
-	    textValue()
-	  );
-	}
+	      var datum = data[(node.text.rank || 1) - 1] || {};
+	      return datum[field] || '';
+	    }
+	  }, {
+	    key: 'textValue',
+	    value: function textValue() {
+	      var node = this.props.node;
+	
+	      var type = node.text.type || 'static';
+	      return type === 'static' ? node.text.value : this.safeGetData(node.text.field);
+	    }
+	  }, {
+	    key: 'onDoubleClick',
+	    value: function onDoubleClick(e) {
+	      e.preventDefault();
+	      this.refs.label.style.display = 'none';
+	      this.refs.input.style.display = 'block';
+	    }
+	  }, {
+	    key: 'commit',
+	    value: function commit() {
+	      var _props2 = this.props;
+	      var node = _props2.node;
+	      var setProperty = _props2.setProperty;
+	
+	
+	      this.refs.label.style.display = 'block';
+	      this.refs.input.style.display = 'none';
+	
+	      setProperty(node.id, 'text', { value: this.refs.input.value });
+	    }
+	  }, {
+	    key: 'handleKeyDown',
+	    value: function handleKeyDown(e) {
+	      if (e.which === ESCAPE_KEY || e.which === ENTER_KEY) {
+	        this.commit();
+	      }
+	    }
+	  }, {
+	    key: 'onBlur',
+	    value: function onBlur(e) {
+	      e.preventDefault();
+	      this.commit();
+	    }
+	  }, {
+	    key: 'handleChange',
+	    value: function handleChange(e) {
+	      this.setState({ editText: e.target.value });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var node = this.props.node;
+	
+	      var style = {
+	        fontFamily: node.font.value,
+	        fontWeight: node.weight.value,
+	        color: node.color.value,
+	        fontSize: node.size.value
+	      };
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { style: style },
+	        _react2.default.createElement(
+	          'div',
+	          {
+	            onDoubleClick: this.onDoubleClick.bind(this),
+	            ref: 'label' },
+	          this.state.editText
+	        ),
+	        _react2.default.createElement('input', {
+	          type: 'text',
+	          ref: 'input',
+	          style: {
+	            display: 'none'
+	          },
+	          onBlur: this.onBlur.bind(this),
+	          onChange: this.handleChange.bind(this),
+	          onKeyDown: this.handleKeyDown.bind(this),
+	          value: this.state.editText })
+	      );
+	    }
+	  }]);
+	
+	  return TextNode;
+	}(_react2.default.Component);
 	
 	TextNode.propTypes = {
 	  node: _react2.default.PropTypes.object.isRequired,
-	  data: _react2.default.PropTypes.array
+	  data: _react2.default.PropTypes.array,
+	  setProperty: _react2.default.PropTypes.func
 	};
+	
 	
 	module.exports = TextNode;
 
