@@ -80,7 +80,7 @@ class CreativeSnapshot extends React.Component {
 }
 
 function Node (props) {
-  const { node } = props
+  const { node, data } = props
 
   const layoutCss = (prop) => prop.type === 'auto' ? 'auto' : `${prop.value}${prop.type}`
 
@@ -118,14 +118,14 @@ function Node (props) {
           width: '100%',
           height: '100%'
         }}>
-        {node.type === 'image' && <ImageNode node={node} data={props.data} />}
-        {node.type === 'text' && <TextNode node={node} data={props.data} />}
+        {node.type === 'image' && <ImageNode node={node} data={data} />}
+        {node.type === 'text' && <TextNode node={node} data={data} />}
         {node.type === 'shape' && <ShapeNode node={node} />}
         {node.type === 'container' && <ContainerNode node={node} />}
       </div>
       {
         node.children.map(
-          (n) => <Node key={n.id} node={n} data={props.data} />
+          (n) => <Node key={n.id} node={n} data={data} />
         )
       }
     </div>
