@@ -246,6 +246,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ESCAPE_KEY = 27;
 	var ENTER_KEY = 13;
 	
+	function safeGetData(field, data, node) {
+	  var source = data || [];
+	  var datum = source[(node.text.rank || 1) - 1] || {};
+	  return datum[field] || '';
+	}
+	
 	var TextNode = function (_React$Component) {
 	  _inherits(TextNode, _React$Component);
 	
@@ -266,22 +272,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  _createClass(TextNode, [{
-	    key: 'safeGetData',
-	    value: function safeGetData(field) {
-	      var _props = this.props;
-	      var data = _props.data;
-	      var node = _props.node;
-	
-	      var datum = data[(node.text.rank || 1) - 1] || {};
-	      return datum[field] || '';
-	    }
-	  }, {
 	    key: 'textValue',
 	    value: function textValue() {
-	      var node = this.props.node;
+	      var _props = this.props;
+	      var node = _props.node;
+	      var data = _props.data;
 	
 	      var type = node.text.type || 'static';
-	      return type === 'static' ? node.text.value : this.safeGetData(node.text.field);
+	      return type === 'static' ? node.text.value : safeGetData(node.text.field, data, node);
 	    }
 	  }, {
 	    key: 'onDoubleClick',
@@ -495,7 +493,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _react2.default.createElement(Node, {
 	              key: c.id,
 	              node: c,
-	              dataSource: _this3.props.doc.dataSource
+	              data: _this3.props.data
 	            });
 	          })
 	        )
