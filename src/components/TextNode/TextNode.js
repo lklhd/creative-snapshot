@@ -16,6 +16,9 @@ class TextNode extends React.Component {
 
   safeGetData (field) {
     const {data, node} = this.props
+
+    if (!data) return '';
+
     const datum = data[(node.text.rank || 1) - 1] || {}
     return datum[field] || ''
   }
