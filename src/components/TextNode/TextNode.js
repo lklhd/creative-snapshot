@@ -3,6 +3,12 @@ import React from 'react'
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
 
+function safeGetData (field, data, node) {
+  const source = data || []
+  const datum = source[(node.text.rank || 1) - 1] || {}
+  return datum[field] || ''
+}
+
 class TextNode extends React.Component {
   static propTypes = {
     node: React.PropTypes.object.isRequired,
@@ -14,18 +20,12 @@ class TextNode extends React.Component {
     editText: this.textValue()
   }
 
-  safeGetData (field) {
-    const {data, node} = this.props
-    const datum = data[(node.text.rank || 1) - 1] || {}
-    return datum[field] || ''
-  }
-
   textValue () {
-    const { node } = this.props
+    const { node, data } = this.props
     const type = node.text.type || 'static'
     return type === 'static'
       ? node.text.value
-      : this.safeGetData(node.text.field)
+      : safeGetData(node.text.field, data, node)
   }
 
   onDoubleClick (e) {

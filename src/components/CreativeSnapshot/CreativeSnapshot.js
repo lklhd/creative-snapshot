@@ -68,7 +68,7 @@ class CreativeSnapshot extends React.Component {
                 <Node
                   key={c.id}
                   node={c}
-                  dataSource={this.props.doc.dataSource}
+                  data={this.props.data}
                 />
               )
             )
