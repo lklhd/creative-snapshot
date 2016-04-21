@@ -272,9 +272,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var data = _props.data;
 	      var node = _props.node;
 	
-	
-	      if (!data) return '';
-	
 	      var datum = data[(node.text.rank || 1) - 1] || {};
 	      return datum[field] || '';
 	    }
@@ -517,6 +514,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function Node(props) {
 	  var node = props.node;
+	  var data = props.data;
 	
 	
 	  var layoutCss = function layoutCss(prop) {
@@ -560,13 +558,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	          width: '100%',
 	          height: '100%'
 	        } },
-	      node.type === 'image' && _react2.default.createElement(_ImageNode2.default, { node: node, data: props.data }),
-	      node.type === 'text' && _react2.default.createElement(_TextNode2.default, { node: node, data: props.data }),
+	      node.type === 'image' && _react2.default.createElement(_ImageNode2.default, { node: node, data: data }),
+	      node.type === 'text' && _react2.default.createElement(_TextNode2.default, { node: node, data: data }),
 	      node.type === 'shape' && _react2.default.createElement(_ShapeNode2.default, { node: node }),
 	      node.type === 'container' && _react2.default.createElement(_ContainerNode2.default, { node: node })
 	    ),
 	    node.children.map(function (n) {
-	      return _react2.default.createElement(Node, { key: n.id, node: n, data: props.data });
+	      return _react2.default.createElement(Node, { key: n.id, node: n, data: data });
 	    })
 	  );
 	}
