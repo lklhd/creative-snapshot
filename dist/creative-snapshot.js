@@ -272,6 +272,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var data = _props.data;
 	      var node = _props.node;
 	
+	
+	      if (!data) return '';
+	
 	      var datum = data[(node.text.rank || 1) - 1] || {};
 	      return datum[field] || '';
 	    }
