@@ -68,7 +68,9 @@ class TextNode extends React.Component {
       color: node.color.value,
       fontSize: node.size.value,
       width: node.textWidth.value == 'auto' ? 'auto' : node.width.value,
-      textAlign: node.textAlign.value
+      textAlign: node.textAlign.value,
+      letterSpacing: node.letterSpacing.value,
+      lineHeight: node.lineHeight.value === 'normal' ? 'normal': node.size.value + node.lineHeight.value
     }
 
     return <div style={style}>
