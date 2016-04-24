@@ -70,7 +70,11 @@ class TextNode extends React.Component {
       width: node.textWidth.value == 'auto' ? 'auto' : node.width.value,
       textAlign: node.textAlign.value,
       letterSpacing: node.letterSpacing.value,
-      lineHeight: node.lineHeight.value === 'normal' ? 'normal': node.size.value + node.lineHeight.value
+      lineHeight: node.lineHeight.value === 'normal' ? 'normal': node.size.value + node.lineHeight.value,
+      textDecoration: node.textStyle.value.underline ? 'underline' : 'none',
+      textTransform: node.textStyle.value.uppercase ? 'uppercase': 'none',
+      fontVariant: node.textStyle.value.smallCaps ? 'small-caps': 'none',
+      fontStyle: node.textStyle.value.italic ? 'italic': 'normal'
     }
 
     return <div style={style}>
