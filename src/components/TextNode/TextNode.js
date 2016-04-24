@@ -61,11 +61,13 @@ class TextNode extends React.Component {
 
   render () {
     const { node } = this.props
+
     const style = {
       fontFamily: node.font.value,
       fontWeight: node.weight.value,
       color: node.color.value,
-      fontSize: node.size.value
+      fontSize: node.size.value,
+      textAlign: node.textAlign.value
     }
 
     return <div style={style}>
