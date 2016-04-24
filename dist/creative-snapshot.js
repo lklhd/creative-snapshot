@@ -325,11 +325,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function render() {
 	      var node = this.props.node;
 	
+	
 	      var style = {
 	        fontFamily: node.font.value,
 	        fontWeight: node.weight.value,
 	        color: node.color.value,
-	        fontSize: node.size.value
+	        fontSize: node.size.value,
+	        textAlign: node.textAlign.value
 	      };
 	
 	      return _react2.default.createElement(
