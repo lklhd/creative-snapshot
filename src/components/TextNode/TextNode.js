@@ -2,6 +2,54 @@ import React from 'react'
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
+const defaultSetting = {
+  text: {
+    value: 'Text'
+  },
+  font: {
+    value: 'arial'
+  },
+  weight: {
+    value: 400
+  },
+  color: {
+    value: '#000'
+  },
+  size: {
+    value: 36
+  },
+  width: {
+    type: 'auto',
+    value: 100
+  },
+  height: {
+    type: 'auto',
+    value: 100
+  },
+  letterSpacing: {
+    value: 'normal'
+  },
+  lineHeight: {
+    value: 'normal'
+  },
+  paragraphSpacing: {
+    value: 'auto'
+  },
+  textAlign: {
+    value: 'left'
+  },
+  textWidth: {
+    value: 'auto'
+  },
+  textStyle: {
+    value: {
+      underline: false,
+      smallCaps: false,
+      italic: false,
+      uppercase: false
+    }
+  }
+}
 
 function safeGetData (field, data, node) {
   const source = data || []
@@ -59,8 +107,12 @@ class TextNode extends React.Component {
     this.setState({editText: e.target.value});
   }
 
+  getNode () {
+    return {...defaultSetting, ...this.props.node}
+  }
+
   render () {
-    const { node } = this.props
+    const node = this.getNode()
 
     const style = {
       fontFamily: node.font.value,
