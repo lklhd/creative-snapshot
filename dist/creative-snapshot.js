@@ -229,6 +229,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(2);
@@ -245,6 +247,54 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var ESCAPE_KEY = 27;
 	var ENTER_KEY = 13;
+	var defaultSetting = {
+	  text: {
+	    value: 'Text'
+	  },
+	  font: {
+	    value: 'arial'
+	  },
+	  weight: {
+	    value: 400
+	  },
+	  color: {
+	    value: '#000'
+	  },
+	  size: {
+	    value: 36
+	  },
+	  width: {
+	    type: 'auto',
+	    value: 100
+	  },
+	  height: {
+	    type: 'auto',
+	    value: 100
+	  },
+	  letterSpacing: {
+	    value: 'normal'
+	  },
+	  lineHeight: {
+	    value: 'normal'
+	  },
+	  paragraphSpacing: {
+	    value: 'auto'
+	  },
+	  textAlign: {
+	    value: 'left'
+	  },
+	  textWidth: {
+	    value: 'auto'
+	  },
+	  textStyle: {
+	    value: {
+	      underline: false,
+	      smallCaps: false,
+	      italic: false,
+	      uppercase: false
+	    }
+	  }
+	};
 	
 	function safeGetData(field, data, node) {
 	  var source = data || [];
@@ -321,10 +371,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.setState({ editText: e.target.value });
 	    }
 	  }, {
+	    key: 'getNode',
+	    value: function getNode() {
+	      return _extends({}, defaultSetting, this.props.node);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var node = this.props.node;
-	
+	      var node = this.getNode();
 	
 	      var style = {
 	        fontFamily: node.font.value,
