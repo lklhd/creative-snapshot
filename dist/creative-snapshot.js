@@ -302,6 +302,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return datum[field] || '';
 	}
 	
+	function textValue(props) {
+	  var node = props.node;
+	  var data = props.data;
+	
+	  var type = node.text.type || 'static';
+	  return type === 'static' ? node.text.value : safeGetData(node.text.field, data, node);
+	}
+	
 	var TextNode = function (_React$Component) {
 	  _inherits(TextNode, _React$Component);
 	
@@ -317,21 +325,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(TextNode)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
-	      editText: _this.textValue()
+	      editText: textValue(_this.props)
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 	
 	  _createClass(TextNode, [{
-	    key: 'textValue',
-	    value: function textValue() {
-	      var _props = this.props;
-	      var node = _props.node;
-	      var data = _props.data;
-	
-	      var type = node.text.type || 'static';
-	      return type === 'static' ? node.text.value : safeGetData(node.text.field, data, node);
-	    }
-	  }, {
 	    key: 'onDoubleClick',
 	    value: function onDoubleClick(e) {
 	      e.preventDefault();
@@ -342,9 +340,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'commit',
 	    value: function commit() {
-	      var _props2 = this.props;
-	      var node = _props2.node;
-	      var setProperty = _props2.setProperty;
+	      var _props = this.props;
+	      var node = _props.node;
+	      var setProperty = _props.setProperty;
 	
 	
 	      this.refs.label.style.display = 'block';
@@ -369,6 +367,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'handleChange',
 	    value: function handleChange(e) {
 	      this.setState({ editText: e.target.value });
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(props) {
+	      this.setState({ editText: textValue(props) });
 	    }
 	  }, {
 	    key: 'getNode',
