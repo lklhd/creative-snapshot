@@ -57,6 +57,14 @@ function safeGetData (field, data, node) {
   return datum[field] || ''
 }
 
+function textValue (props) {
+  const { node, data } = props
+  const type = node.text.type || 'static'
+  return type === 'static'
+    ? node.text.value
+    : safeGetData(node.text.field, data, node)
+}
+
 class TextNode extends React.Component {
   static propTypes = {
     node: React.PropTypes.object.isRequired,
@@ -65,16 +73,9 @@ class TextNode extends React.Component {
   }
 
   state = {
-    editText: this.textValue()
+    editText: textValue(this.props)
   }
 
-  textValue () {
-    const { node, data } = this.props
-    const type = node.text.type || 'static'
-    return type === 'static'
-      ? node.text.value
-      : safeGetData(node.text.field, data, node)
-  }
 
   onDoubleClick (e) {
     e.preventDefault();
@@ -105,6 +106,10 @@ class TextNode extends React.Component {
 
   handleChange (e) {
     this.setState({editText: e.target.value});
+  }
+
+  componentWillReceiveProps (props) {
+    this.setState({editText: textValue(props)})
   }
 
   getNode () {
