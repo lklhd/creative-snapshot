@@ -58,17 +58,18 @@ function safeGetData (field, data, node) {
 }
 
 function textValue (props) {
-  const { node, data } = props
+  const { node, data, previewData } = props
   const type = node.text.type || 'static'
   return type === 'static'
     ? node.text.value
-    : safeGetData(node.text.field, data, node)
+    : previewData ? previewData[node.text.field] : safeGetData(node.text.field, data, node)
 }
 
 class TextNode extends React.Component {
   static propTypes = {
     node: React.PropTypes.object.isRequired,
     data: React.PropTypes.array,
+    previewData: React.PropTypes.object,
     setProperty: React.PropTypes.func
   }
 

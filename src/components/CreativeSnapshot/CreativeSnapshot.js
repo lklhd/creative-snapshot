@@ -11,7 +11,8 @@ import TextNode from '../TextNode/TextNode'
 class CreativeSnapshot extends React.Component {
   static propTypes = {
     doc: React.PropTypes.object.isRequired,
-    data: React.PropTypes.array
+    data: React.PropTypes.array,
+    previewData: React.PropTypes.object
   }
 
   getCanvasNode () {
@@ -69,6 +70,7 @@ class CreativeSnapshot extends React.Component {
                   key={c.id}
                   node={c}
                   data={this.props.data}
+                  previewData={this.props.previewData}
                 />
               )
             )
@@ -80,7 +82,7 @@ class CreativeSnapshot extends React.Component {
 }
 
 function Node (props) {
-  const { node, data } = props
+  const { node, data, previewData } = props
 
   const layoutCss = (prop) => prop.type === 'auto' ? 'auto' : `${prop.value}${prop.type}`
 
@@ -118,8 +120,8 @@ function Node (props) {
           width: '100%',
           height: '100%'
         }}>
-        {node.type === 'image' && <ImageNode node={node} data={data} />}
-        {node.type === 'text' && <TextNode node={node} data={data} />}
+        {node.type === 'image' && <ImageNode node={node} data={data} previewData={previewData} />}
+        {node.type === 'text' && <TextNode node={node} data={data} previewData={previewData} />}
         {node.type === 'shape' && <ShapeNode node={node} />}
         {node.type === 'container' && <ContainerNode node={node} />}
       </div>

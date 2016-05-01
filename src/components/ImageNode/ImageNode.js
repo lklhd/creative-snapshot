@@ -5,6 +5,7 @@ import React from 'react'
 class ImageNode extends React.Component {
   static propTypes = {
     node: React.PropTypes.object.isRequired,
+    previewData: React.PropTypes.object,
     data: React.PropTypes.array
   }
 
@@ -20,9 +21,10 @@ class ImageNode extends React.Component {
 
   imageSource () {
     const type = this.props.node.src.type || 'static'
+    const { previewData } = this.props
     return type === 'static'
       ? this.props.node.src.value
-      : this.safeGetData(this.props.node.src.field)
+      : previewData ? previewData[this.props.node.src.field] : this.safeGetData(this.props.node.src.field)
   }
 
   render () {
