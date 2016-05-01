@@ -145,7 +145,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'imageSource',
 	    value: function imageSource() {
 	      var type = this.props.node.src.type || 'static';
-	      return type === 'static' ? this.props.node.src.value : this.safeGetData(this.props.node.src.field);
+	      var previewData = this.props.previewData;
+	
+	      return type === 'static' ? this.props.node.src.value : previewData ? previewData[this.props.node.src.field] : this.safeGetData(this.props.node.src.field);
 	    }
 	  }, {
 	    key: 'render',
@@ -176,6 +178,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	ImageNode.propTypes = {
 	  node: _react2.default.PropTypes.object.isRequired,
+	  previewData: _react2.default.PropTypes.object,
 	  data: _react2.default.PropTypes.array
 	};
 	ImageNode.defaultProps = {
@@ -305,9 +308,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	function textValue(props) {
 	  var node = props.node;
 	  var data = props.data;
+	  var previewData = props.previewData;
 	
 	  var type = node.text.type || 'static';
-	  return type === 'static' ? node.text.value : safeGetData(node.text.field, data, node);
+	  return type === 'static' ? node.text.value : previewData ? previewData[node.text.field] : safeGetData(node.text.field, data, node);
 	}
 	
 	var TextNode = function (_React$Component) {
@@ -428,6 +432,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	TextNode.propTypes = {
 	  node: _react2.default.PropTypes.object.isRequired,
 	  data: _react2.default.PropTypes.array,
+	  previewData: _react2.default.PropTypes.object,
 	  setProperty: _react2.default.PropTypes.func
 	};
 	
@@ -559,7 +564,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _react2.default.createElement(Node, {
 	              key: c.id,
 	              node: c,
-	              data: _this3.props.data
+	              data: _this3.props.data,
+	              previewData: _this3.props.previewData
 	            });
 	          })
 	        )
@@ -572,13 +578,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	CreativeSnapshot.propTypes = {
 	  doc: _react2.default.PropTypes.object.isRequired,
-	  data: _react2.default.PropTypes.array
+	  data: _react2.default.PropTypes.array,
+	  previewData: _react2.default.PropTypes.object
 	};
 	
 	
 	function Node(props) {
 	  var node = props.node;
 	  var data = props.data;
+	  var previewData = props.previewData;
 	
 	
 	  var layoutCss = function layoutCss(prop) {
@@ -622,8 +630,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          width: '100%',
 	          height: '100%'
 	        } },
-	      node.type === 'image' && _react2.default.createElement(_ImageNode2.default, { node: node, data: data }),
-	      node.type === 'text' && _react2.default.createElement(_TextNode2.default, { node: node, data: data }),
+	      node.type === 'image' && _react2.default.createElement(_ImageNode2.default, { node: node, data: data, previewData: previewData }),
+	      node.type === 'text' && _react2.default.createElement(_TextNode2.default, { node: node, data: data, previewData: previewData }),
 	      node.type === 'shape' && _react2.default.createElement(_ShapeNode2.default, { node: node }),
 	      node.type === 'container' && _react2.default.createElement(_ContainerNode2.default, { node: node })
 	    ),
